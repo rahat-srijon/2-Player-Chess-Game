@@ -23,7 +23,7 @@ function initBoard(){
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
-	  [null,null,null,null,null,null,null,null],
+	  [new Pawn('black',[1,7]),,null,null,null,null,null,null,null],
 	  [
 		new Pawn('white',[6,0]),
 		new Pawn('white',[6,1]),
@@ -55,8 +55,8 @@ function board(){
 	for(let i=0;i<8;i++){
 		for(let j=0;j<8;j++){
 			let color=i%2==j%2;
-			if(color)fill(255,255,255);
-			else fill(10,100,10);
+			if(color)fill(118,150,86);
+			else fill(238,238,210);
 			rect(startX+i*scale,startY+j*scale,scale,scale);
 		}
 	}
@@ -65,6 +65,9 @@ function board(){
 		for(let j=0;j<8;j++){
 			if(grid[i][j]!=null){
 				grid[i][j].draw(startX+j*scale,startY+i*scale);
+				if(grid[i][j].clicked===1){
+					grid[i][j].getValidMoves();
+				}
 			}
 		}
 	}
