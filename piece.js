@@ -42,12 +42,17 @@ class Rook extends Piece{
 		if(this.color=='black')fill(255,100,100);
 		else if(this.color=='white')fill(100,100,255);
 		triangle(
-			x+scale*0.50,y+scale*0.20,
+			x+scale*0.50,y+scale*0.25,
 			x+scale*0.75,y+scale*0.75,
 			x+scale*0.25,y+scale*0.75
 			);
 		rect(
 			x+scale*0.20,y+scale*0.20,
+			scale*0.15,scale*0.20,
+			0,0,scale*0.10,scale*0.10
+			);
+		rect(
+			x+scale*0.425,y+scale*0.20,
 			scale*0.15,scale*0.20,
 			0,0,scale*0.10,scale*0.10
 			);
@@ -76,10 +81,11 @@ class Knight extends Piece{
 	isMoveLegal(board){}
 	move(position,board){}
 	draw(x,y){
+		circle(x+scale*0.50,y+scale*0.6,scale*0.40);
 		triangle(
-			x+scale*0.25, y+scale*0.7,
-			x+scale*0.60, y+scale*0.7,
-			x+scale*0.60, y+scale*0.2
+			x+scale*0.75, y+scale*0.7,
+			x+scale*0.40, y+scale*0.7,
+			x+scale*0.40, y+scale*0.3
 			);
 		triangle(
 			x+scale*0.25, y+scale*0.35,
@@ -87,14 +93,9 @@ class Knight extends Piece{
 			x+scale*0.50, y+scale*0.15
 			);
 		triangle(
-			x+scale*0.70, y+scale*0.55,
-			x+scale*0.50, y+scale*0.55,
-			x+scale*0.50, y+scale*0.15
-			);
-		triangle(
-			x+scale*0.75, y+scale*0.7,
-			x+scale*0.40, y+scale*0.7,
-			x+scale*0.40, y+scale*0.3
+			x+scale*0.65, y+scale*0.45,
+			x+scale*0.50, y+scale*0.60,
+			x+scale*0.45, y+scale*0.15
 			);
 		rect(
 			x+scale*0.10,y+scale*0.7,
@@ -119,6 +120,11 @@ class Bishop extends Piece{
 			x+scale*0.25,y+scale*0.75
 			);
 		circle(x+scale*0.50,y+scale*0.3,scale/3);
+		triangle(
+			x+scale*0.35,y+scale*0.25,
+			x+scale*0.55,y+scale*0.35,
+			x+scale*0.35,y+scale*0.25
+			);
 		rect(
 			x+scale*0.25,y+scale*0.4,
 			scale*0.5,scale*0.10,
