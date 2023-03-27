@@ -200,7 +200,7 @@ class King extends Piece{
 			);
 		rect(
 			x+scale*0.45,y+scale*0.10,
-			scale*0.10,scale*0.70
+			scale*0.10,scale*0.30
 			);
 		rect(
 			x+scale*0.25,y+scale*0.4,
