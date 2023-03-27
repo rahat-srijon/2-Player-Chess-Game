@@ -23,7 +23,7 @@ function initBoard(){
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
-	  [new Pawn('black',[1,7]),,null,null,null,null,null,null,null],
+	  [new Pawn('black',[1,7]),null,null,null,null,null,null,null],
 	  [
 		new Pawn('white',[6,0]),
 		new Pawn('white',[6,1]),

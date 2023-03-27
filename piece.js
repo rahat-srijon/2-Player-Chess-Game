@@ -25,8 +25,8 @@ class Pawn extends Piece{
 			if(this.color==='white'&&x===6&&grid[nx][ny]===null&&grid[x+dr][y]===null)return 1;
 			if(this.color==='black'&&x===1&&grid[nx][ny]===null&&grid[x+dr][y]===null)return 1;
 		}
-		console.log(nx,ny);
-		if(dx===dr&&Math.abs(dy)===1&&grid[nx][ny]!==null&&grid[nx][ny].color!==this.color){
+		console.log(nx,ny,grid[nx][ny]);
+		if(dy===dr&&Math.abs(dx)===1&&grid[nx][ny]!==null&&grid[nx][ny].color!==this.color){
 			return 2;
 		}
 		return 0;
@@ -40,7 +40,7 @@ class Pawn extends Piece{
 					fill(186,202,68,120);
 					circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
 				}
-				if(can===2){
+				else if(can===2){
 					fill(202,68,186,120);
 					circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
 				}
