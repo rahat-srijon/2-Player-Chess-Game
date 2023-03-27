@@ -48,7 +48,10 @@ class Knight extends Piece{
     isMoveLegal(board){}
     move(position,board){}
     draw(x,y){
-        
+        triangle(x+scale*0.35,y+scale*0.50-scale*0.3,x+scale*0.75,y+scale*0.75,x+scale*0.25,y+scale*0.75);
+        triangle(x+scale*0.35,y+scale*0.40-scale*0.3,x+scale*0.75,y+scale*0.50,x+scale*0.25,y+scale*0.40);
+        triangle(x+scale*0.50,y+scale*0.40-scale*0.3,x+scale*0.85,y+scale*0.50,x+scale*0.25,y+scale*0.30);
+        rect(x+scale*0.10,y+scale/2+scale*0.2,scale*0.8,scale*0.20,100,100,100,100);
     }
 }
 class Bishop extends Piece{
