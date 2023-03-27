@@ -124,7 +124,7 @@ class Bishop extends Piece{
 			scale*0.5,scale*0.10,
 			100,100,100,100
 			);
-		circle(x+scale*0.50,y+scale*0.50-scale*0.35,scale/6);
+		circle(x+scale*0.50,y+scale*0.15,scale/6);
 		rect(
 			x+scale*0.10,y+scale*0.70,
 			scale*0.8,scale*0.20,
@@ -159,7 +159,9 @@ class Queen extends Piece{
 			scale*0.5,scale*0.10,
 			100,100,100,100
 			);
-		circle(x+scale*0.50,y+scale*0.50-scale*0.35,scale/6);
+		circle(x+scale*0.50,y+scale*0.15,scale/6);
+		circle(x+scale*0.25,y+scale*0.25,scale/8);
+		circle(x+scale*0.75,y+scale*0.25,scale/8);
 		rect(
 			x+scale*0.10,y+scale*0.70,
 			scale*0.8,scale*0.20,
@@ -174,5 +176,41 @@ class King extends Piece{
 	getValidMoves(board){}
 	isMoveLegal(board){}
 	move(position,board){}
-	draw(){}
+	draw(x,y){
+		if(this.color=='black')fill(255,100,100);
+		else if(this.color=='white')fill(100,100,255);
+		triangle(
+			x+scale*0.50,y+scale*0.20,
+			x+scale*0.75,y+scale*0.75,
+			x+scale*0.25,y+scale*0.75
+			);
+		triangle(
+			x+scale*0.70,y+scale*0.50,
+			x+scale*0.75,y+scale*0.25,
+			x+scale*0.35,y+scale*0.40
+			);
+		triangle(
+			x+scale*0.30,y+scale*0.50,
+			x+scale*0.25,y+scale*0.25,
+			x+scale*0.65,y+scale*0.40
+			);
+		rect(
+			x+scale*0.35,y+scale*0.20,
+			scale*0.3,scale*0.10
+			);
+		rect(
+			x+scale*0.45,y+scale*0.10,
+			scale*0.10,scale*0.70
+			);
+		rect(
+			x+scale*0.25,y+scale*0.4,
+			scale*0.5,scale*0.10,
+			100,100,100,100
+			);
+		rect(
+			x+scale*0.10,y+scale*0.70,
+			scale*0.8,scale*0.20,
+			100,100,100,100
+			);
+	}
 }
