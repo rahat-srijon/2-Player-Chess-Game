@@ -23,7 +23,7 @@ function initBoard(){
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
 	  [null,null,null,null,null,null,null,null],
-	  [new Pawn('black',[1,7]),null,null,null,null,null,null,null],
+	  [null,null,null,null,null,null,null,null],
 	  [
 		new Pawn('white',[6,0]),
 		new Pawn('white',[6,1]),
@@ -45,6 +45,19 @@ function initBoard(){
 		new Rook('white',[7,7]),
 	  ],
 	];
+}
+function markCell(i,j,c){
+	if(c==0)return;
+	strokeWeight(0);
+	if(c===1){
+		fill(186,202,68,120);
+		circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
+	}
+	else if(c===2){
+		fill(202,68,186,120);
+		circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
+	}
+	strokeWeight(scale/20);
 }
 function board(){
 	sz=min(windowWidth,windowHeight);
