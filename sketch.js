@@ -8,6 +8,9 @@ function setup() {
 var scale;
 var startX;
 var startY;
+var clickedX;
+var clickedY;
+var click;
 var sz;
 var cursor;
 function getPosition(){
@@ -31,6 +34,19 @@ function draw() {
 }
 function mouseClicked(){
 	const p=getPosition();
+	if(click){
+		const moveList=grid[clickedX][clickedY].getValidMoves();
+		for(let i=0;i<moveList.length;i++){
+			if(moveList[i][0]===p[0]&&moveList[i][1]===p[1]){
+				console.log(clickedX,clickedY,p);
+				grid[clickedX][clickedY].clicked=0;
+				grid[clickedX][clickedY].move(p);
+				click=0;
+				return;
+			}
+		}
+	}
+	moveList=null;
 	if(p===null)return;
 	const [i,j]=p;
 	if(grid[i][j]!=null){
@@ -44,6 +60,9 @@ function mouseClicked(){
 			}
 		}
 		grid[i][j].clicked=1;
+		clickedX=i;
+		clickedY=j;
+		click=1;
 	}
 	else{
 		for(let i=0;i<8;i++){
@@ -53,5 +72,6 @@ function mouseClicked(){
 				}
 			}
 		}
+		click=0;
 	}
 }

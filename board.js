@@ -49,13 +49,12 @@ function initBoard(){
 function markCell(i,j,c){
 	if(c==0)return;
 	strokeWeight(0);
+	fill(0,0,0,100);
 	if(c===1){
-		fill(186,202,68,120);
 		circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
 	}
 	else if(c===2){
-		fill(202,68,186,120);
-		circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.50);
+		circle(startX+scale*j+scale*0.50,startY+scale*i+scale*0.5,scale*0.75);
 	}
 	strokeWeight(scale/20);
 }
@@ -78,10 +77,10 @@ function board(){
 		for(let j=0;j<8;j++){
 			if(grid[i][j]!=null){
 				grid[i][j].draw(startX+j*scale,startY+i*scale);
-				if(grid[i][j].clicked===1){
-					grid[i][j].getValidMoves();
-				}
 			}
 		}
+	}
+	if(click){
+		grid[clickedX][clickedY].getValidMoves();
 	}
 }

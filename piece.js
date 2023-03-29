@@ -6,6 +6,7 @@ class Piece{
 	}
 	markValidMoves(moves,continuous){
 		const [x,y]=this.position;
+		var moveList=[];
 		for(let j=0;j<moves.length;j++){
 			var cx=x+moves[j][0];
 			var cy=y+moves[j][1];
@@ -13,6 +14,7 @@ class Piece{
 				while(cx>=0&&cy>=0&&cx<8&&cy<8){
 					let can=this.isMoveLegal([cx,cy]);
 					markCell(cx,cy,can);
+					if(can)moveList.push([cx,cy]);
 					if(can!=1)break;
 					cx+=moves[j][0];
 					cy+=moves[j][1];
@@ -22,9 +24,18 @@ class Piece{
 				if(cx>=0&&cy>=0&&cx<8&&cy<8){
 					let can=this.isMoveLegal([cx,cy]);
 					markCell(cx,cy,can);
+					if(can)moveList.push([cx,cy]);
 				}
 			}
 		}
+		return moveList;
+	}
+	move(position){
+		const [px,py]=this.position;
+		const [nx,ny]=position;
+		grid[nx][ny]=grid[px][py];
+		grid[nx][ny].position=position;
+		grid[px][py]=null;
 	}
 	getValidMoves(){}
 	isMoveLegal(position){
@@ -33,7 +44,6 @@ class Piece{
 		else if(grid[x][y].color!=this.color)return 2;
 		return 0;
 	}
-	move(position){}
 	draw(){}
 }
 class Pawn extends Piece{
@@ -46,29 +56,34 @@ class Pawn extends Piece{
 		const dx=nx-x;
 		const dy=ny-y;
 		const dr=this.color==='white'?-1:1;
-		if(dx==dr&&!dy&&grid[nx][ny]===null)return 1;
+		if(dx===dr&&!dy&&grid[nx][ny]===null)return 1;
 		if(dx===2*dr&&!dy){
 			if(this.color==='white'&&x===6&&grid[nx][ny]===null&&grid[x+dr][y]===null)return 1;
 			if(this.color==='black'&&x===1&&grid[nx][ny]===null&&grid[x+dr][y]===null)return 1;
 		}
-		if(dy===dr&&Math.abs(dx)===1&&grid[nx][ny]!==null&&grid[nx][ny].color!==this.color){
+		if(dx===dr&&Math.abs(dy)===1&&grid[nx][ny]!==null&&grid[nx][ny].color!==this.color){
 			return 2;
 		}
 		return 0;
 	}
 	getValidMoves(){
 		const [x,y]=this.position;
+		var moveList=[];
 		for(let i=max(0,x-2);i<=min(x+2,7);i++){
 			for(let j=max(0,y-1);j<=min(y+1,7);j++){
 				let can=this.isMoveLegal([i,j]);
 				markCell(i,j,can);
+				if(can!=0){
+					moveList.push([i,j]);
+					console.log(i,j);
+				}
 			}
 		}
+		return moveList;
 	}
-	move(position){}
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
-		else if(this.color=='white')fill(100,100,255);
+		else fill(100,100,255);
 		triangle(
 			x+scale*0.50,y+scale*0.20,
 			x+scale*0.75,y+scale*0.75,
@@ -86,7 +101,6 @@ class Rook extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	move(position){}
 	getValidMoves(){
 		const moves=[
 			[0,1],
@@ -94,11 +108,11 @@ class Rook extends Piece{
 			[1,0],
 			[-1,0]
 		];
-		this.markValidMoves(moves,1);
+		return this.markValidMoves(moves,1);
 	}
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
-		else if(this.color=='white')fill(100,100,255);
+		else fill(100,100,255);
 		triangle(
 			x+scale*0.50,y+scale*0.25,
 			x+scale*0.75,y+scale*0.75,
@@ -146,10 +160,11 @@ class Knight extends Piece{
 			[1,-2],
 			[-1,-2]
 		];
-		this.markValidMoves(moves,0);
+		return this.markValidMoves(moves,0);
 	}
-	move(position){}
 	draw(x,y){
+		if(this.color=='black')fill(255,100,100);
+		else fill(100,100,255);
 		circle(x+scale*0.50,y+scale*0.6,scale*0.40);
 		triangle(
 			x+scale*0.75, y+scale*0.7,
@@ -185,12 +200,11 @@ class Bishop extends Piece{
 			[1,-1],
 			[-1,1],
 		];
-		this.markValidMoves(moves,1);
+		return this.markValidMoves(moves,1);
 	}
-	move(position){}
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
-		else if(this.color=='white')fill(100,100,255);
+		else fill(100,100,255);
 		triangle(
 			x+scale*0.50,y+scale*0.20,
 			x+scale*0.75,y+scale*0.75,
@@ -231,12 +245,11 @@ class Queen extends Piece{
 			[1,0],
 			[-1,0]
 		];
-		this.markValidMoves(moves,1);
+		return this.markValidMoves(moves,1);
 	}
-	move(position){}
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
-		else if(this.color=='white')fill(100,100,255);
+		else fill(100,100,255);
 		triangle(
 			x+scale*0.50,y+scale*0.20,
 			x+scale*0.75,y+scale*0.75,
@@ -278,12 +291,11 @@ class King extends Piece{
 			[1,0],
 			[-1,0]
 		];
-		this.markValidMoves(moves,0);
+		return this.markValidMoves(moves,0);
 	}
-	move(position){}
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
-		else if(this.color=='white')fill(100,100,255);
+		else fill(100,100,255);
 		triangle(
 			x+scale*0.50,y+scale*0.20,
 			x+scale*0.75,y+scale*0.75,
