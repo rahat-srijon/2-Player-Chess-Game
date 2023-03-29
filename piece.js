@@ -1,30 +1,95 @@
+function isKingInCheck(color){
+	var pos=null;
+	for(let i=0;i<8;i++){
+		for(let j=0;j<8;j++){
+			const king=grid[i][j];
+			if(king!=null&&king instanceof King&&king.color==color){
+				pos=king.position;
+				break;
+			}
+		}
+		if(pos!=null)break;
+	}
+	const enemy=color=='white'?'black':'white';
+	for(let i=0;i<8;i++){
+		for(let j=0;j<8;j++){
+			const cur=grid[i][j];
+			if(cur!=null&&cur.color==enemy){
+				if(cur.isMoveLegal(pos)){
+					return 1;
+				}
+			}
+		}
+	}
+	return 0;
+}
+function ifMove(old_position,new_position){
+	const [ox,oy]=old_position;
+	const [nx,ny]=new_position;
+	if(grid[nx][ny]!=null)grid[nx][ny].move([0,8]);
+	grid[ox][oy].move([nx,ny]);
+	let can=isKingInCheck(grid[nx][ny].color);
+	grid[nx][ny].move([ox,oy]);
+	if(grid[0][8]!=null)grid[0][8].move([nx,ny]);
+	return can;
+}
 class Piece{
 	clicked=0;
+	moves=[];
+	continuous=0;
 	constructor(color,position){
 		this.color=color;
 		this.position=position;
 	}
-	markValidMoves(moves,continuous){
+	isMoveLegal(position){
+		const [x,y]=this.position;
+		const [tx,ty]=position;
+		for(let j=0;j<this.moves.length;j++){
+			var cx=x+this.moves[j][0];
+			var cy=y+this.moves[j][1];
+			if(this.continuous){
+				while(cx>=0&&cy>=0&&cx<8&&cy<8){
+					if(cx==tx&&cy==ty){
+						if(grid[tx][ty]===null)return 1;
+						else if(grid[tx][ty].color!=this.color)return 2;
+					}
+					if(grid[cx][cy]!==null)break;
+					cx+=this.moves[j][0];
+					cy+=this.moves[j][1];
+				}
+			}
+			else{
+				if(cx>=0&&cy>=0&&cx<8&&cy<8){
+					if(cx==tx&&cy==ty){
+						if(grid[tx][ty]===null)return 1;
+						else if(grid[tx][ty].color!=this.color)return 2;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	getValidMoves(){
 		const [x,y]=this.position;
 		var moveList=[];
-		for(let j=0;j<moves.length;j++){
-			var cx=x+moves[j][0];
-			var cy=y+moves[j][1];
-			if(continuous){
+		for(let j=0;j<this.moves.length;j++){
+			var cx=x+this.moves[j][0];
+			var cy=y+this.moves[j][1];
+			if(this.continuous){
 				while(cx>=0&&cy>=0&&cx<8&&cy<8){
 					let can=this.isMoveLegal([cx,cy]);
-					markCell(cx,cy,can);
-					if(can)moveList.push([cx,cy]);
+					if(can)can=!ifMove([x,y],[cx,cy])?can:0;
+					if(can)moveList.push([cx,cy,can]);
 					if(can!=1)break;
-					cx+=moves[j][0];
-					cy+=moves[j][1];
+					cx+=this.moves[j][0];
+					cy+=this.moves[j][1];
 				}
 			}
 			else{
 				if(cx>=0&&cy>=0&&cx<8&&cy<8){
 					let can=this.isMoveLegal([cx,cy]);
-					markCell(cx,cy,can);
-					if(can)moveList.push([cx,cy]);
+					if(can)can=!ifMove([x,y],[cx,cy])?can:0;
+					if(can)moveList.push([cx,cy,can]);
 				}
 			}
 		}
@@ -36,13 +101,6 @@ class Piece{
 		grid[nx][ny]=grid[px][py];
 		grid[nx][ny].position=position;
 		grid[px][py]=null;
-	}
-	getValidMoves(){}
-	isMoveLegal(position){
-		const [x,y]=position;
-		if(grid[x][y]===null)return 1;
-		else if(grid[x][y].color!=this.color)return 2;
-		return 0;
 	}
 	draw(){}
 }
@@ -75,7 +133,6 @@ class Pawn extends Piece{
 				markCell(i,j,can);
 				if(can!=0){
 					moveList.push([i,j]);
-					console.log(i,j);
 				}
 			}
 		}
@@ -101,15 +158,13 @@ class Rook extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	getValidMoves(){
-		const moves=[
-			[0,1],
-			[0,-1],
-			[1,0],
-			[-1,0]
-		];
-		return this.markValidMoves(moves,1);
-	}
+	moves=[
+		[0,1],
+		[0,-1],
+		[1,0],
+		[-1,0]
+	];
+	continuous=1;
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
 		else fill(100,100,255);
@@ -149,19 +204,17 @@ class Knight extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	getValidMoves(){
-		const moves=[
-			[2,1],
-			[2,-1],
-			[1,2],
-			[-1,2],
-			[-2,1],
-			[-2,-1],
-			[1,-2],
-			[-1,-2]
-		];
-		return this.markValidMoves(moves,0);
-	}
+	moves=[
+		[2,1],
+		[2,-1],
+		[1,2],
+		[-1,2],
+		[-2,1],
+		[-2,-1],
+		[1,-2],
+		[-1,-2]
+	];
+	continuous=0;
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
 		else fill(100,100,255);
@@ -192,16 +245,13 @@ class Bishop extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	getValidMoves(){
-		const [x,y]=this.position;
-		const moves=[
-			[1,1],
-			[-1,-1],
-			[1,-1],
-			[-1,1],
-		];
-		return this.markValidMoves(moves,1);
-	}
+	moves=[
+		[1,1],
+		[-1,-1],
+		[1,-1],
+		[-1,1],
+	];
+	continuous=1;
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
 		else fill(100,100,255);
@@ -234,19 +284,17 @@ class Queen extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	getValidMoves(){
-		const moves=[
-			[1,1],
-			[-1,-1],
-			[1,-1],
-			[-1,1],
-			[0,1],
-			[0,-1],
-			[1,0],
-			[-1,0]
-		];
-		return this.markValidMoves(moves,1);
-	}
+	moves=[
+		[1,1],
+		[-1,-1],
+		[1,-1],
+		[-1,1],
+		[0,1],
+		[0,-1],
+		[1,0],
+		[-1,0]
+	];
+	continuous=1;
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
 		else fill(100,100,255);
@@ -280,19 +328,17 @@ class King extends Piece{
 	constructor(color,position){
 		super(color,position);
 	}
-	getValidMoves(){
-		const moves=[
-			[1,1],
-			[-1,-1],
-			[1,-1],
-			[-1,1],
-			[0,1],
-			[0,-1],
-			[1,0],
-			[-1,0]
-		];
-		return this.markValidMoves(moves,0);
-	}
+	moves=[
+		[1,1],
+		[-1,-1],
+		[1,-1],
+		[-1,1],
+		[0,1],
+		[0,-1],
+		[1,0],
+		[-1,0]
+	];
+	continuous=0;
 	draw(x,y){
 		if(this.color=='black')fill(255,100,100);
 		else fill(100,100,255);

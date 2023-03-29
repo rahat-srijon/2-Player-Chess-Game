@@ -38,7 +38,6 @@ function mouseClicked(){
 		const moveList=grid[clickedX][clickedY].getValidMoves();
 		for(let i=0;i<moveList.length;i++){
 			if(moveList[i][0]===p[0]&&moveList[i][1]===p[1]){
-				console.log(clickedX,clickedY,p);
 				grid[clickedX][clickedY].clicked=0;
 				grid[clickedX][clickedY].move(p);
 				click=0;

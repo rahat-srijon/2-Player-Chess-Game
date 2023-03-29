@@ -58,6 +58,12 @@ function markCell(i,j,c){
 	}
 	strokeWeight(scale/20);
 }
+function markCells(cellList){
+	for(let i=0;i<cellList.length;i++){
+		const [x,y,c]=cellList[i];
+		markCell(x,y,c);
+	}
+}
 function board(){
 	sz=min(windowWidth,windowHeight);
 	scale=sz/8;
@@ -81,6 +87,6 @@ function board(){
 		}
 	}
 	if(click){
-		grid[clickedX][clickedY].getValidMoves();
+		markCells(grid[clickedX][clickedY].getValidMoves());
 	}
 }
