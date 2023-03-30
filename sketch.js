@@ -14,6 +14,8 @@ var clickedY;
 var click;
 var sz;
 var turn;
+var restart=0;
+var rsClick=0;
 function getPosition(){
 	let [x,y]=[mouseX,mouseY];
 	if(x>=startX&&x<=startX+sz*8 && y>=startY&&y<=startY+sz*8){
@@ -30,11 +32,25 @@ function draw() {
 	if(started==0){
 		initBoard();
 		started=1;
+		restart=0;
+		rsClick=0;
+	}
+	else{
+		if(restart&&rsClick){
+			started=0;
+		}
 	}
 	board();
-	isGameOver();
+	if(isGameOver()){
+		restart=1;
+		rsClick=0;
+	}
 }
 function mouseClicked(){
+	if(restart){
+		rsClick=1;
+		return;
+	}
 	const p=getPosition();
 	if(click){
 		const moveList=grid[clickedX][clickedY].getValidMoves();
@@ -105,7 +121,7 @@ function endScreen(winner){
 	else if(!winner)background(255,0,0,50);
 	else background(0,0,255,150);
 	textSize(sz/9.5);
-	fill(0, 0, 0, 200);
+	fill(0, 0, 0, 150);
 	strokeWeight(0);
 	rect(startX,sz/2-scale,sz,2*scale);
 	fill(255,255,255);
@@ -127,6 +143,9 @@ function endScreen(winner){
 		fill(0, 255, 0,175);
 		text('DRAW',sz+scale/3,sz/1.8);
 	}
+	textSize(sz/21);
+	fill(255, 255, 255);
+	text('CLICK TO START AGAIN',sz+scale/3,sz/2.3+scale*1.8);
 }
 function isGameOver(){
 	if(isCheckMate(turn)){
