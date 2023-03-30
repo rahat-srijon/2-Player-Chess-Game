@@ -2,8 +2,9 @@ let grid=[];
 let started=0;
 function setup() {
 	createCanvas(windowWidth,windowHeight);
-	textAlign(CENTER,CENTER);
 	document.body.style.overflow='hidden';
+	textFont(loadFont('assets/prstart.ttf'));
+	textAlign(CENTER,CENTER);
 }
 var scale;
 var startX;
@@ -102,11 +103,30 @@ function isStaleMate(turn){
 function endScreen(winner){
 	if(winner==-1)background(0,100,0,50);
 	else if(!winner)background(255,0,0,50);
-	else background(0,0,255,50);
-	rect(windowWidth/2,windowHeight/2,windowWidth,windowHeight);
-	textSize(width/4);
-	fill(255, 255, 255);
-	text('CHECKMATE',windowWidth/2,windowHeight/2);
+	else background(0,0,255,150);
+	textSize(sz/9.5);
+	fill(0, 0, 0, 200);
+	strokeWeight(0);
+	rect(startX,sz/2-scale,sz,2*scale);
+	fill(255,255,255);
+	if(winner!=-1){
+		text('CHECKMATE',sz+scale/3,sz/2.3);
+		textSize(sz/8.5);
+		if(turn){
+			fill(0, 0, 255,175);
+			text('BLUE WON',sz+scale/3,sz/1.8);
+		}
+		else{
+			fill(255, 0, 0,175);
+			text('RED WON',sz+scale/3,sz/1.8);
+		}
+	}
+	else{
+		text('STALEMATE',sz+scale/3,sz/2.3);
+		textSize(sz/8.5);
+		fill(0, 255, 0,175);
+		text('DRAW',sz+scale/3,sz/1.8);
+	}
 }
 function isGameOver(){
 	if(isCheckMate(turn)){

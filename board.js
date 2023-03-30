@@ -70,6 +70,16 @@ function board(){
 	scale=sz/8;
 	startX=max(0,windowWidth/2-sz/2);
 	startY=max(0,windowHeight/2-sz/2);
+	for(let i=0;i<8;i++){
+		if(grid[0][i]===null)continue;
+		if(grid[0][i].color!='white')continue;
+		if(grid[0][i] instanceof Pawn)grid[0][i]=new Queen('white',[0,i]);
+	}
+	for(let i=0;i<8;i++){
+		if(grid[7][i]===null)continue;
+		if(grid[7][i].color!='black')continue;
+		if(grid[7][i] instanceof Pawn)grid[7][i]=new Queen('black',[7,i]);
+	}
 	strokeWeight(0);
 	for(let i=0;i<8;i++){
 		for(let j=0;j<8;j++){

@@ -146,9 +146,9 @@ class Pawn extends Piece{
 			);
 		circle(x+scale*0.50,y+scale*0.50-scale*0.2,scale/3);
 		rect(
-			x+scale*0.10,y+scale*0.7,
-			scale*0.8,scale*0.20,
-			1000,1000,1000,1000
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 }
@@ -187,14 +187,14 @@ class Rook extends Piece{
 			0,0,scale*0.10,scale*0.10
 			);
 		rect(
-			x+scale*0.20,y+scale*0.30,
+			x+scale*0.2,y+scale*0.30,
 			scale*0.6,scale*0.20,
-			0,0,scale*0.10,scale*0.10
+			0,0,scale/30,scale/30
 			);
 		rect(
-			x+scale*0.10,y+scale*0.7,
-			scale*0.8,scale*0.20,
-			100,100,100,100
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 }
@@ -233,9 +233,9 @@ class Knight extends Piece{
 			x+scale*0.45, y+scale*0.15
 			);
 		rect(
-			x+scale*0.10,y+scale*0.7,
-			scale*0.8,scale*0.20,
-			100,100,100,100
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 }
@@ -267,13 +267,13 @@ class Bishop extends Piece{
 		rect(
 			x+scale*0.25,y+scale*0.4,
 			scale*0.5,scale*0.10,
-			100,100,100,100
+			scale,scale,scale,scale
 			);
 		circle(x+scale*0.50,y+scale*0.15,scale/6);
 		rect(
-			x+scale*0.10,y+scale*0.70,
-			scale*0.8,scale*0.20,
-			100,100,100,100
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 
@@ -310,15 +310,15 @@ class Queen extends Piece{
 		rect(
 			x+scale*0.25,y+scale*0.4,
 			scale*0.5,scale*0.10,
-			100,100,100,100
+			scale,scale,scale,scale
 			);
 		circle(x+scale*0.50,y+scale*0.15,scale/6);
 		circle(x+scale*0.25,y+scale*0.25,scale/8);
 		circle(x+scale*0.75,y+scale*0.25,scale/8);
 		rect(
-			x+scale*0.10,y+scale*0.70,
-			scale*0.8,scale*0.20,
-			100,100,100,100
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 }
@@ -366,12 +366,12 @@ class King extends Piece{
 		rect(
 			x+scale*0.25,y+scale*0.4,
 			scale*0.5,scale*0.10,
-			100,100,100,100
+			scale,scale,scale,scale
 			);
 		rect(
-			x+scale*0.10,y+scale*0.70,
-			scale*0.8,scale*0.20,
-			100,100,100,100
+			x+scale*0.20,y+scale*0.7,
+			scale*0.6,scale*0.20,
+			scale,scale,scale/20,scale/20
 			);
 	}
 }
