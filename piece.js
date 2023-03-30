@@ -130,10 +130,8 @@ class Pawn extends Piece{
 		for(let i=max(0,x-2);i<=min(x+2,7);i++){
 			for(let j=max(0,y-1);j<=min(y+1,7);j++){
 				let can=this.isMoveLegal([i,j]);
-				markCell(i,j,can);
-				if(can!=0){
-					moveList.push([i,j]);
-				}
+				if(can)can=!ifMove([x,y],[i,j])?can:0;
+				if(can)moveList.push([i,j,can]);
 			}
 		}
 		return moveList;

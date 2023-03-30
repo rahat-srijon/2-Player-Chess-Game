@@ -4,11 +4,12 @@ function initBoard(){
 		new Rook('black',[0,0]),
 		new Knight('black',[0,1]),
 		new Bishop('black',[0,2]),
-		new King('black',[0,3]),
-		new Queen('black',[0,4]),
+		new Queen('black',[0,3]),
+		new King('black',[0,4]),
 		new Bishop('black',[0,5]),
 		new Knight('black',[0,6]),
 		new Rook('black',[0,7]),
+		null
 	  ],
 	  [
 		new Pawn('black',[1,0]),
@@ -73,7 +74,7 @@ function board(){
 	for(let i=0;i<8;i++){
 		for(let j=0;j<8;j++){
 			let color=i%2==j%2;
-			if(color)fill(118,150,86);
+			if(!color)fill(118,150,86);
 			else fill(238,238,210);
 			rect(startX+i*scale,startY+j*scale,scale,scale);
 		}

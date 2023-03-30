@@ -12,7 +12,7 @@ var clickedX;
 var clickedY;
 var click;
 var sz;
-var cursor;
+var turn;
 function getPosition(){
 	let [x,y]=[mouseX,mouseY];
 	if(x>=startX&&x<=startX+sz*8 && y>=startY&&y<=startY+sz*8){
@@ -31,6 +31,7 @@ function draw() {
 		started=1;
 	}
 	board();
+	isGameOver();
 }
 function mouseClicked(){
 	const p=getPosition();
@@ -40,15 +41,15 @@ function mouseClicked(){
 			if(moveList[i][0]===p[0]&&moveList[i][1]===p[1]){
 				grid[clickedX][clickedY].clicked=0;
 				grid[clickedX][clickedY].move(p);
+				turn=!turn;
 				click=0;
 				return;
 			}
 		}
 	}
-	moveList=null;
 	if(p===null)return;
 	const [i,j]=p;
-	if(grid[i][j]!=null){
+	if(grid[i][j]!=null&&((turn&&grid[i][j].color!='white')||(!turn&&grid[i][j].color=='white'))){
 		if(!grid[i][j].clicked){
 			for(let i=0;i<8;i++){
 				for(let j=0;j<8;j++){
@@ -73,4 +74,48 @@ function mouseClicked(){
 		}
 		click=0;
 	}
+}
+function isCheckMate(turn){
+	const king=turn?'black':'white';
+	if(!isKingInCheck(king))return 0;
+	for(let i=0;i<8;i++){
+		for(let j=0;j<8;j++){
+			if(grid[i][j]==null)continue;
+			if(grid[i][j].color!=king)continue;
+			if(grid[i][j].getValidMoves().length)return 0;
+		}
+	}
+	return 1;
+}
+function isStaleMate(turn){
+	const king=turn?'black':'white';
+	if(isKingInCheck(king))return 0;
+	for(let i=0;i<8;i++){
+		for(let j=0;j<8;j++){
+			if(grid[i][j]==null)continue;
+			if(grid[i][j].color!=king)continue;
+			if(grid[i][j].getValidMoves().length)return 0;
+		}
+	}
+	return 1;
+}
+function endScreen(winner){
+	if(winner==-1)background(0,100,0,50);
+	else if(!winner)background(255,0,0,50);
+	else background(0,0,255,50);
+	rect(windowWidth/2,windowHeight/2,windowWidth,windowHeight);
+	textSize(width/4);
+	fill(255, 255, 255);
+	text('CHECKMATE',windowWidth/2,windowHeight/2);
+}
+function isGameOver(){
+	if(isCheckMate(turn)){
+		endScreen(turn);
+		return 1;
+	}
+	else if(isStaleMate(turn)){
+		endScreen(-1);
+		return 1;
+	}
+	return 0;
 }
