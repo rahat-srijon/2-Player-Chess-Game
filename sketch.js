@@ -28,7 +28,8 @@ function getPosition(){
 	return null;
 }
 function draw() {
-	background(40);
+	if(turn)background(150,0,0);
+	else background(0,0,150);
 	if(started==0){
 		initBoard();
 		started=1;
